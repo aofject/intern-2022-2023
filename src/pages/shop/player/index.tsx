@@ -5,6 +5,7 @@ import CardSoccer from "@components/atoms/CardSoccer"
 import Link from "next/link"
 import { NextRouter, useRouter } from "next/router"
 import { mockSoccerList } from "src/mockups/player.mock"
+import Header from "@components/atoms/Header"
 
 const ShopPlayerPage: NextPage = () => {
   const router: NextRouter = useRouter()
@@ -21,6 +22,8 @@ const ShopPlayerPage: NextPage = () => {
 
   return (
     <div className="flex w-full h-full relative flex-col">
+      <Header />
+
       <h2>ShopPlayerPage</h2>
       <div className="w-full flex flex-row gap-x-2">
         <Link

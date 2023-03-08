@@ -5,9 +5,9 @@ import GridCardLayout from "src/layouts/GridCardLayout"
 import { NextRouter, useRouter } from "next/router"
 import Link from "next/link"
 import { mockClubList } from "src/mockups/club.mock"
+import Header from "@components/atoms/Header"
 
 const ShopClubPage: NextPage = () => {
-
   const router: NextRouter = useRouter()
   const genDataList = () => {
     return mockClubList.map((c) => (
@@ -23,6 +23,7 @@ const ShopClubPage: NextPage = () => {
 
   return (
     <div className="flex w-full h-full relative flex-col">
+      <Header />
       <h2>ShopPlayerPage</h2>
       <div className="w-full flex flex-row gap-x-2">
         <Link

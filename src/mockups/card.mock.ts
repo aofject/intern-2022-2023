@@ -28,16 +28,20 @@ type Role = "user" | "admin"
 
 const x: Role = "admin"
 
+// () => void
+// () => number
+
 const setFakeMock = () => {
   let fake: number = 10
   if (price > thb) {
     fake = 20
   }
+  return fake
 }
 
-const getCardName = () => {
+const getCardName = (): Array<string> => {
   //   return _unk;
-  return cardName
+  return [""]
 }
 
 // Tips: you can check variable is null | undefinded | "" | 0 | false with if(<variable>)
@@ -50,15 +54,32 @@ const checkTopTier = () => {
   }
 }
 
-const calsPriceToTHB = (_price: number): string => {
-  return (_price * thb).toString()
+interface IProps {
+  _price: number
+  // 10 field
+}
+
+const calsPriceToTHB = (props: IProps): string => {
+  return (props._price * thb).toString()
 }
 
 function getAge(x: number): number {
   return 60
 }
 
-const CardData = {
+export interface IPosition {
+  position: { short: string; full: string }
+}
+
+export interface ICardData extends Partial<IPosition> {
+  cardName: string
+  price: number
+  power: number
+  isActive: boolean
+  club: string
+}
+
+const CardData: ICardData = {
   cardName: "Tony",
   price: 500,
   power: 300,
@@ -70,17 +91,7 @@ const CardData = {
   club: "New York City F.C."
 }
 
-// _nameList = cardNameList
-const getNameFromArr = (_nameList: Array<any>) => {
-  return _nameList[0]
-}
-
-// _cData = CardData
-const getNameByCardData = (_cData: any) => {
-  return _cData.cardName
-}
-
-export const CardMockData = [
+export const CardMockData: ICardData[] = [
   {
     cardName: "Tony",
     price: 500,

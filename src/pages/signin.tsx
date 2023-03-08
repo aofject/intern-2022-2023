@@ -1,6 +1,7 @@
 import { NextPage } from "next"
 import { NextRouter, useRouter } from "next/router"
 import React, { FormEvent, useState } from "react"
+import useProfile from "src/hooks/useProfile"
 import { useAppDispatch } from "src/stores/hooks"
 import { SIGNIN } from "src/stores/slices/profileSlices"
 
@@ -10,6 +11,7 @@ const SignInPage: NextPage = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [userName, setUserName] = useState("Pumpkin")
   const [cashCoin, setCashCoin] = useState(500)
+  const { setProfile } = useProfile()
 
   const onCashChange = (_v: string) => {
     const _value = Number(_v)
@@ -20,10 +22,11 @@ const SignInPage: NextPage = () => {
     event.preventDefault()
     setIsLoading(true)
     dispatch(SIGNIN({ username: userName, cash: cashCoin }))
+    setProfile(userName)
     setTimeout(() => {
-      router.push("/")
+      router.push({ pathname: "/", query: { username: userName } })
       setIsLoading(false)
-    }, 3000)
+    }, 1000)
   }
 
   return (

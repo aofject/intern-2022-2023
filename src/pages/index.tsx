@@ -1,26 +1,61 @@
 import { NextPage } from "next"
-import React, { useEffect } from "react"
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { NextRouter, useRouter } from "next/router"
 import Link from "next/link"
 import { useAppDispatch, useAppSelector } from "@stores/hooks"
-import { getProfile, SIGNOUT } from "@stores/slices/profileSlices"
+import { getProfile, SIGNOUT, UPDATE_COIN } from "@stores/slices/profileSlices"
+import { getMaterialTypes } from "src/services/naka.service"
+import Count from "@components/Count"
+import useProfile from "src/hooks/useProfile"
+import { useDispatch } from "react-redux"
+import Header from "@components/atoms/Header"
+
+interface IList {
+  label: string
+  data: string
+  icon: string
+  href: string
+  active: boolean
+}
 
 const HomePage: NextPage = () => {
   const router: NextRouter = useRouter()
   const profile = useAppSelector(getProfile)
-  const dispatch = useAppDispatch()
-  const fetchRef: boolean = false
+  const dispatch = useDispatch()
+  const fetchRef = useRef<boolean>(false)
+
+  const [update, setUpdate] = useState<boolean>(false)
+  const [count, setCount] = useState<number>(0)
+
+  const { setProfile, profile: address } = useProfile()
 
   const onSignOut = () => {
     dispatch(SIGNOUT())
   }
 
+  const fetchMaterial = async () => {
+    // const { status, data, message, isActive } = await getMaterialTypes()
+    // if (status && data) {
+    //   const _data: string = data[0].id
+    //   dispatch(UPDATE_COIN({ coin: 10 }))
+    // }
+  }
+
+  const handleUpdate = () => {
+    setUpdate(!update)
+    setUpdate((prev: boolean) => !prev)
+    setCount(count + 1)
+    setCount((prev: number) => prev + 1)
+  }
+
   useEffect(() => {
-    alert("Welcome to Home Page")
-  }, [])
+    // fetchMaterial()
+    console.log(`effect`, update)
+  }, [update])
 
   return (
     <div className="flex w-full h-full relative flex-col">
+      <Header />
       <h2>HomePage</h2>
       <div className="flex w-96 bg-slate-900 rounded-xl text-white px-4 h-10 capitalize items-center flex-row gap-x-4">
         <span>
@@ -53,7 +88,6 @@ const HomePage: NextPage = () => {
           </button>
         )}
       </div>
-
       <div className="flex w-full flex-row gap-x-4">
         <Link href="/signin">
           <button
@@ -80,6 +114,11 @@ const HomePage: NextPage = () => {
           club
         </button>
       </div>
+      <div>{address}</div>
+      <Count
+        count={count}
+        setNewCount={setCount}
+      />
     </div>
   )
 }
